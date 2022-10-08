@@ -3,6 +3,7 @@ import App from './App.vue'
 
 import LogIn from './components/LogIn.vue'
 import SignUp from './components/SignUp.vue'
+import Home from './components/Home.vue'
 
 const routes = [{
   path: '/',
@@ -18,13 +19,18 @@ const routes = [{
   path: '/user/signUp',
   name: "signUp",
   component: SignUp
+},
+{
+  path: '/user/home',
+  name: "home",
+  component: Home
 }
 
 ];
 
 const router = createRouter({
   history: createWebHistory(),
-  routes
-})
+  routes,
+});
 
-export default router
+export default router;

@@ -2,13 +2,13 @@
 
     <div class="logIn_user">
         <div class="container_logIn_user">
-            <h2>Iniciar sesión</h2>
-            <form v-on:submit.prevent="processLogInUser" >
+            <h2>Log In</h2>
+            <form v-on:submit.prevent="processLogInUser">
                 <input type="text" v-model="user.username" placeholder="Username">
                 <br>
                 <input type="password" v-model="user.password" placeholder="Password">
                 <br>
-                <button type="submit">Iniciar Sesion</button>
+                <button type="submit">Log In</button>
             </form>
         </div>
     </div>
@@ -64,7 +64,7 @@ export default {
     }
 
     .container_logIn_user {
-        border: 3px solid #3f8cde;
+        /*border: 3px solid #3f8cde;*/
         border-radius: 10px;
         width: 25%;
         height: 60%;
@@ -75,7 +75,7 @@ export default {
     }
 
     .logIn_user h2{
-        color: #283747;
+        color: #eef2f5;
     }
 
     .logIn_user form{

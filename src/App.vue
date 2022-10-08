@@ -1,13 +1,13 @@
 <template>
   <div id="app" class="app">
     <div class="header">
-      <h1>Los Brayans Restaurante</h1>
+      <h1>Los Brayans Restaurant</h1>
       <nav>
-        <button v-if="is_auth" > Inicio </button>
-        <button v-if="is_auth" > Cuenta </button>
-        <button v-if="is_auth" > Cerrar Sesión </button>
-        <button v-if="!is_auth" v-on:click="loadLogIn" > Iniciar Sesión </button>
-        <button v-if="!is_auth" v-on:click="loadSignUp" > Registrarse </button>
+        <button v-if="is_auth" v-on:click="loadHome"> Home </button>
+        <button v-if="is_auth" > Booking </button>
+        <button v-if="is_auth" v-on:click="logOut"> Log Out </button>
+        <button v-if="!is_auth" v-on:click="loadLogIn" > Log In </button>
+        <button v-if="!is_auth" v-on:click="loadSignUp" > Sign Up </button>
       </nav>
     </div>
 
@@ -15,19 +15,20 @@
       <router-view
         v-on:completedLogIn="completedLogIn"
         v-on:completedSignUp="completedSignUp"
+        v-on:logOut="logOut"
       >
       </router-view>
     </div>
 
     <div class="footer">
-      <h2>2022 Los Brayans Restaurante</h2>
+      <h2>2022 Los Brayans Colombian Restaurant</h2>
     </div>
 
   </div>
 </template>
 
 <script>
-export default{
+export default {
   name: 'App',
   data: function(){
     return{
@@ -39,8 +40,11 @@ export default{
   },
   methods:{
     verifyAuth: function() {
-      if(this.is_auth == false)
-        this.$router.push({name: "logIn"})
+      this.is_auth = localStorage.getItem("isAuth") || false;
+      if (this.is_auth == false)
+        this.$router.push({ name: "logIn" });
+      else
+        this.$router.push({ name: "home" });
     },
 
     loadLogIn: function(){
@@ -51,8 +55,28 @@ export default{
       this.$router.push({name: "signUp"})
     },
 
-    completedLogIn: function(data) {},
-    completedSignUp: function(data) {},
+    completedLogIn: function(data) {
+      localStorage.setItem("isAuth", true);
+      localStorage.setItem("username", data.username);
+      localStorage.setItem("token_access", data.token_access);
+      localStorage.setItem("token_refresh", data.token_refresh);
+      alert("Auth Success!");
+      this.verifyAuth();
+    },
+
+    completedSignUp: function(data) {
+      alert("Sign Up success!");
+      this.completedLogIn(data);
+    },
+    loadHome: function(){
+      this.$router.push({ name: "home"});
+    },
+    logOut: function () {
+      localStorage.clear();
+      alert("Logged out");
+      this.verifyAuth();
+    },
+
   },
   created: function(){
     this.verifyAuth()
@@ -60,13 +84,15 @@ export default{
 }
 </script>
  
-
 <style>
   body{
     margin:0 0 0 0;
+    background-image: url(https://img.freepik.com/foto-gratis/marco-comida-circular-plano-laico_23-2148708223.jpg?w=1060&t=st=1665193973~exp=1665194573~hmac=2413f5f6b84b892044a29da64c44ba8e24deef259f31176f629beae083757fca);
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
   }
   .header{
-    margin:0;
+    margin:0%;
     padding:0;
     width: 100%;
     height: 10vh;
@@ -106,10 +132,10 @@ export default{
   }
 
   .main-component{
-    height: 75vh;
-    margin: 0%;
+    height: 25vh;
+    margin: 15%;
     padding: 0%;
-    background: #FDFEFE ;
+    /*background: #FDFEFE ;*/
   }
 
   .footer{
@@ -117,7 +143,7 @@ export default{
     padding: 0;
     width: 100%;
     height: 10vh;
-    min-height: 100px;
+    min-height: 80px;
     background-color: #283747;
     color: #E5E7E9;
   }

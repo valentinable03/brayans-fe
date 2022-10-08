@@ -1,27 +1,13 @@
 <template>
-    <div class="signUp_user">
-        <div class="container_signUp_user">
+    <div class="Booking">
+        <div class="container_Booking">
             <h2>Sign Up</h2>
             <form v-on:submit.prevent="processSignUp" >
-                <input type="text" v-model="user.username" placeholder="Username">
+                <input type="number" v-model="user.booking.people" placeholder="People">
                 <br>
-                <input type="password" v-model="user.password" placeholder="Password">
-                <br>
-                <input type="text" v-model="user.name" placeholder="Name">
-                <br>
-                <input type="text" v-model="user.lastname" placeholder="Lastname">
-                <br>
-                <input type="text" v-model="user.address" placeholder="Address">
-                <br>
-                <input type="phone" v-model="user.phone" placeholder="Phone">
-                <br>
-                <input type="email" v-model="user.email" placeholder="Email">
-                <br>
-                <!----<input type="number" v-model="user.booking.people" placeholder="Personas">
-                <br>
-                <input type="date" v-model="user.booking.bookingdate" placeholder="Fecha y hora">
+                <input type="date" v-model="user.booking.bookingdate" placeholder="Date and hour">
                 <br>-->
-                <button type="submit">Sign Up</button>
+                <button type="submit">Send</button>
             </form>
         </div>
     </div>
@@ -30,29 +16,20 @@
 <script>
 import axios from 'axios';
 export default {
-    name: "SignUp",
+    name: "Booking",
     data: function(){
         return {
-            user: {
-                username: "",
-                password: "",
-                name: "",
-                lastname: "",
-                address: "",
-                phone:"",
-                email: ""
-                //booking: {
-                    //bookingdate: (new Date()).toJSON().toString(),
-                    //people: "",
-                //}
+            booking: {
+                bookingdate: (new Date()).toJSON().toString(),
+                people: "",
             }
         }
     },
     methods: {
         processSignUp: function(){
             axios.post(
-                "https://brayans-be.herokuapp.com/userCreate/",
-                this.user,
+                "https://brayans-be.herokuapp.com/bookingCreate/",
+                this.booking,
                 {headers: {}}
             )
                 .then((result) => {
@@ -94,7 +71,7 @@ export default {
     }
 
     .signUp_user h2{
-        color: #eef2f5;
+        color: #283747;
     }
 
     .signUp_user form{
